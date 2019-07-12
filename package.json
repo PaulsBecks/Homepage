@@ -5,6 +5,7 @@
   "dependencies": {
     "husky": "^3.0.0",
     "lint-staged": "^9.2.0",
+    "pre-commit": "^1.2.2",
     "pretty-quick": "^1.11.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -13,14 +14,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "CI=true react-scripts test",
+    "eject": "react-scripts eject",
+    "prettify": "pretty-quick --staged && eslint src/ --fix"
   },
-  "lint-staged": {  
-    "*.{js,jsx}": [    
-      "pretty-quick --staged",    
-      "eslint src/ --fix",    
-      "git add"  
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "pretty-quick --staged",
+      "eslint src/ --fix",
+      "git add"
     ]
   },
   "eslintConfig": {
@@ -39,7 +41,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.0",
@@ -48,5 +49,10 @@
     "eslint-plugin-react": "^7.14.2",
     "prettier": "^1.18.2"
   },
-  "precommit": "lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run prettify && yarn test --no-watch",
+      "pre-push": "yarn test --no-watch"
+    }
+  }
 }
