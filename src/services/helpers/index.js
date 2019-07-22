@@ -1,0 +1,1 @@
+export { default as inSuccession } from './inSuccession';
